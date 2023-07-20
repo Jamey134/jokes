@@ -12,7 +12,7 @@ module.exports = app => {
     
     app.get("/api/jokes/:id", jokesController.findOneJoke); // <--- Get one joke with matching id
     
-    app.post("/api/jokes", jokesController.addOneJoke); // <--- Add a new joke in DB
+    app.post("/api/jokes", jokesController.createJoke); // <--- Add a new joke in DB
 
     app.patch("/api/jokes/:id", jokesController.updateJoke); // <--- Partially updates an existing joke with a matching id
 

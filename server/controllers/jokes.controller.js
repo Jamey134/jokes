@@ -7,22 +7,63 @@ module.exports = {
         res.json({ message: "Hello World" });
     },
 
-    allJokes: (req, res) => {
-        const user = createUser();
-        res.json(user)
-    }, 
+    //READ ALL
+    findAllJokes: (req, res) => {
+        jokes.find()
+            .then((allJokes) => {
+                res.json({ jokes: allJokes })
+            })
+            .catch((err) => {
+                res.json(err)
+            });
+    },
 
-    newCompany: (req, res) => {
-        const company = createCompany();
-        res.json(company)
+    //READ ONE DATUM (Joke) BY ID
+    findOneJoke: (req, res) => {
+        jokes.findOne({ _id: req.params.id })
+            .then(oneJoke => {
+                res.json({ joke: oneJoke })
+            })
+            .catch((err) => [
+                res.json(err)
+            ]);
     },
-    newUserAndCompany: (req, res) => {
-        const user = createUser();
-        const company = createCompany();
-        res.json({ user, company });
+
+
+    //CREATE A JOKE
+    createJoke: (req, res) => {
+        jokes.create(req.body)
+            .then(createdJoke => {
+                res.json(createdJoke)
+            })
+            .catch((err) => {
+                res.json(err)
+            })
     },
-    
-    postUser: (req, res) => {
-        res.json(req.body)
+
+    //UPDATE A JOKE BY FINDING IT'S ID
+    updateJoke: (req, res) => {
+        jokes.findOneAndUpdate(
+            { _id: req.params.id },
+            req.body,
+            { new: true, runValidators: true }
+        )
+            .then(updatedJoke => {
+                res.json({ joke: updatedJoke })
+            })
+            .catch((err) => {
+                res.json(err)
+            });
+    },
+
+    //DELETE A JOKE 
+    deleteJoke: (req, res) => {
+        jokes.deleteOne({ _id: req.params.id })
+            .then(result => {
+                res.json({ result: result })
+            })
+            .catch((err) => {
+                res.json(err)
+            });
     }
 };
